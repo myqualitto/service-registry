@@ -2,7 +2,6 @@ pipeline {
   agent any
   tools {
     maven 'maven_3.6.3'
-    docker docker
   }
   environment {
     imagename = "ivams2001/${env.JOB_NAME}"
