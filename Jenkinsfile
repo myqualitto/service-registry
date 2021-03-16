@@ -1,8 +1,6 @@
 node {
     def app
-    stage('Clone repository') {
-        checkout scm
-    }
+    
     stage('Build image') {
         app = docker.build("ivamsi2001/service-registry")
     }
