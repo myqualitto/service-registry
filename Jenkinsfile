@@ -1,28 +1,37 @@
-node {
-    def app
-    environment {
-       jobName = jobName()
+pipeline{
+    
+    agent any
+    
+    environment{
+        currJobName = jobName()
+        imagename = "ivamsi2001/${currJobName}"
+        dockerCrdtl = 'dockerhub'
+        dockerImage = ''
     }
-    stage('Clone repository') {
-        checkout scm
-    }
-    stage('Build image') {
-       app = docker.build("ivamsi2001/${env.jobName}")
-    }
-    stage('Test image') {
-        app.inside {
-            sh 'echo "Tests passed"'
+    
+    stages{
+        stage('Building image'){
+            steps{
+                script{
+                    dockerImage = docker.build imagename
+                }
+            }
         }
-    }
-    stage('Push image') {
-        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
+        
+        stage('Deploy Image'){
+            steps{
+                script{
+                    docker.withRegistry('https://registry.hub.docker.com', dockerCrdtl){
+                        dockerImage.push("${env.BUILD_NUMBER}")
+                        dockerImage.push('latest')
+                    }
+                }
+            }
         }
     }
 }
 
-def jobName() {
-  def jobNameParts = env.JOB_NAME.tokenize('/') as String[]
-  jobNameParts.length < 2 ? env.JOB_NAME : jobNameParts[jobNameParts.length - 2]
+def String jobName() {
+    def jobNameParts = env.JOB_NAME.tokenize('/') as String[]
+    return jobNameParts.length < 2 ? env.JOB_NAME : jobNameParts[jobNameParts.length - 2]
 }
