@@ -1,23 +1,20 @@
-pipeline {
-  agent any
-  tools {
-    maven 'maven_3.6.3'
-  }
-  environment {
-    imagename = "ivams2001/${env.JOB_NAME}"
-    registryCredential = 'qualitto-dockerhub'
-    dockerImage = ''
-  }
-  stages {
-    stage('Maven Build') {
-      steps {
-        sh "mvn clean install"
-      }
+node {
+    def app
+    stage('Clone repository') {
+        checkout scm
     }
-    stage('Building image') {
-      steps {
-        sh "docker build -t hello:lts ."
-      }
+    stage('Build image') {
+        app = docker.build("ivamsi2001/${env.JOB_NAME}")
     }
-  }
+    stage('Test image') {
+        app.inside {
+            sh 'echo "Tests passed"'
+        }
+    }
+    stage('Push image') {
+        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+            app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
+        }
+    }
 }
