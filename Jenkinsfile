@@ -4,7 +4,7 @@ node {
         checkout scm
     }
     stage('Build image') {
-        app = docker.build("ivamsi2001/${env.JOB_NAME}")
+        app = docker.build("ivamsi2001/service-registry")
     }
     stage('Test image') {
         app.inside {
