@@ -32,7 +32,7 @@ pipeline{
         stage('Deploy Image'){
             steps{
                 script{
-                    docker.withRegistry('https://registry.hub.docker.com', dockerCrdtl){
+                    docker.withRegistry('', dockerCrdtl){
                         dockerImage.push("${env.BUILD_NUMBER}")
                         dockerImage.push('latest')
                     }
