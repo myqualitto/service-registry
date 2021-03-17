@@ -4,7 +4,7 @@ pipeline{
     
     environment{
         currJobName = jobName()
-        imagename = "ivamsi2001/${currJobName}"
+        imagename = "ivamsi2001/${currJobName}:${env.BUILD_NUMBER}"
         dockerCrdtl = 'dockerhub'
         dockerImage = ''
     }
@@ -33,7 +33,7 @@ pipeline{
             steps{
                 script{
                     docker.withRegistry('', dockerCrdtl){
-                        dockerImage.push("${env.BUILD_NUMBER}")
+                        dockerImage.push()
                         dockerImage.push('latest')
                     }
                 }
