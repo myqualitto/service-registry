@@ -1,1 +1,1 @@
-# techhmr-serviceregistry
+# Service - Registry
