@@ -7,7 +7,7 @@ metadata:
   namespace: foo
 spec:
   containers:
-  - image: harik8/hello-docker
+  - image: qualitto007/service-registry:latest
     name: hello-docker
     resources: {}
   dnsPolicy: ClusterFirst
