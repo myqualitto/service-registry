@@ -4,7 +4,7 @@ pipeline{
     
     environment{
         currJobName = jobName()
-        imagename = "ivamsi2001/${currJobName}:${env.BUILD_NUMBER}"
+        imagename = "qualitto007/${currJobName}:${env.BUILD_NUMBER}"
         dockerCrdtl = 'dockerhub'
         dockerImage = ''
     }
