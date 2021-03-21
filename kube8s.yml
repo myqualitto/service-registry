@@ -1,6 +1,6 @@
 ---
-apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
   name: service-registry
 spec:
@@ -8,13 +8,11 @@ spec:
   selector:
     matchLabels:
       app: service-registry
-      version: blue
   template:
     metadata:
       name: service-registry
       labels:
         app: service-registry
-        version: blue
     spec:
       containers:
       - name: service-registry
@@ -23,18 +21,17 @@ spec:
         ports:
         - containerPort: 80
 ---
+kind: Service
 apiVersion: v1
-kind: Service 
 metadata:
   name: service-registry
   labels:
     app: service-registry
 spec:
-  selector:
-    app: service-registry
-    version: blue
   type: NodePort
   ports:
   - nodePort: 31113
     port: 80
     targetPort: 80
+  selector:
+    app: service-registry
