@@ -24,9 +24,9 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: service-registry
+  name: service-registry-service
   labels:
-    app: service-registry
+    app: service-registry-service
 spec:
   type: NodePort
   ports:
